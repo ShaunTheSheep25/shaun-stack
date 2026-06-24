@@ -46,7 +46,7 @@ Furthermore, on stopping using `make down`, the database volumes (`fari-data`, `
 
 ## Limitations
 
-There are multiple limitations with the way I've containerised these services, some of which are given as follows -
+There are multiple limitations with the way I've containerised these services, some of which are given below -
 
 - Containers run as root, but this is not suitable for production (detailed in SECURITY.md)
 - SQLite is used for persistence, but is usually not considered for multi-instance production deployments
