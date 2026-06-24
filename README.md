@@ -37,9 +37,13 @@ make lint    # run ruff across all three repos
 Do note that `make test` runs the full pytest suite for each service, and requires the service repos to be cloned as siblings in the given format -
 
 inGen Work/
+
 ├── shaun-stack/
+
 ├── fari-checkins/
+
 ├── senpai-lessons/
+
 └── sentinel-events/
 
 Furthermore, on stopping using `make down`, the database volumes (`fari-data`, `senpai-data`) are preserved so that the database state survives restarts. To wipe them completely, do `docker volume rm shaun-stack_fari-data shaun-stack_senpai-data`.
