@@ -1,0 +1,32 @@
+services:
+  fari-checkins:
+    build: ../fari-checkins
+    ports:
+      - "8001:8000"
+    volumes:
+      - fari-data:/app/data
+    networks:
+      - shaun-net
+
+  senpai-lessons:
+    build: ../senpai-lessons
+    ports:
+      - "8002:8000"
+    volumes:
+      - senpai-data:/app/data
+    networks:
+      - shaun-net
+
+  sentinel-events:
+    build: ../sentinel-events
+    ports:
+      - "8003:8000"
+    networks:
+      - shaun-net
+
+volumes:
+  fari-data:
+  senpai-data:
+
+networks:
+  shaun-net:
