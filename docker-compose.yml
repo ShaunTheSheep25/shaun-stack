@@ -24,9 +24,47 @@ services:
     networks:
       - shaun-net
 
+  ros-publisher:
+    image: osrf/ros:humble-desktop
+    command: >
+      bash -c "source /opt/ros/humble/setup.bash &&
+               cd /aido_ws &&
+               colcon build --packages-select aido_telemetry &&
+               source install/setup.bash &&
+               ros2 run aido_telemetry publisher"
+    volumes:
+      - ../aido_telemetry:/aido_ws/src/aido_telemetry
+    networks:
+      - shaun-net
+
+  aido-bridge:
+    build:
+      context: ../aido-bridge
+    ports:
+      - "8000:8000"
+    depends_on:
+      - ros-publisher
+    networks:
+      - shaun-net
+
+  fleet-console:
+    build:
+      context: ../fleet-console
+      args:
+        - VITE_SENTINEL_URL=http://sentinel-events:8000
+        - VITE_AIDO_BRIDGE_WS=ws://aido-bridge:8000
+    ports:
+      - "3000:80"
+    depends_on:
+      - sentinel-events
+      - aido-bridge
+    networks:
+      - shaun-net
+
 volumes:
   fari-data:
   senpai-data:
 
 networks:
   shaun-net:
+    driver: bridge
