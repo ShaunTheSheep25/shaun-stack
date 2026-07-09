@@ -30,6 +30,9 @@ services:
     network_mode: host
     environment:
       - ROS_DOMAIN_ID=0
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/config/fastrtps-udp-only.xml
+    volumes:
+      - ../aido-bridge/config/fastrtps-udp-only.xml:/config/fastrtps-udp-only.xml
     command: >
       /bin/bash -c "
       source /opt/ros/humble/setup.bash &&
@@ -42,6 +45,7 @@ services:
     network_mode: host
     environment:
       - ROS_DOMAIN_ID=0
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/config/fastrtps-udp-only.xml
 
   fleet-console:
     build:
