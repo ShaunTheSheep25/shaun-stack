@@ -1,58 +1,44 @@
-# shaun-stack
+# inGen Dynamics Internship Project Portfolio
 
-This mini-project combines the three InGen Beta Dynamics internship services as a single docker-compose stack. Each service is independently deployable but this repo brings them up together for local development and integration testing.
+This README.md summarizes the services and projects developed during my internship at inGen Dynamics.
 
-| Service | Port | Repo | Published Image |
-|---|---|---|---|
-| fari-checkins | 8001 | [link](https://github.com/ShaunTheSheep25/fari-checkins) | ghcr.io/shaunthesheep25/fari-checkins |
-| senpai-lessons | 8002 | [link](https://github.com/ShaunTheSheep25/senpai-lessons) | ghcr.io/shaunthesheep25/senpai-lessons |
-| sentinel-events | 8003 | [link](https://github.com/ShaunTheSheep25/sentinel-events) | ghcr.io/shaunthesheep25/sentinel-events |
+## Service Repositories
 
-(Do note that you must have the packages required to run Docker and docker-compose on your system.)
+### [shaun-toolkit](https://github.com/ShaunTheSheep25/shaun-toolkit)  
+A foundation for future development, this repository provides a template structure including pyproject.toml, src layout, pytest with coverage, and pre-commit hooks configured for ruff, black, and mypy to ensure high code quality.
 
-## How to run
+### [fari-checkins](https://github.com/ShaunTheSheep25/fari-checkins)  
 
-```bash
-git clone https://github.com/ShaunTheSheep25/shaun-stack.git
-cd shaun-stack
-make up
-```
+![fari-checkins-image](docs/fari-checkins-image.png)
 
-All three services will build and start automatically. Once running, visit the interactive docs for each service (this is the "smoke test" referenced in the project docs):
+A REST API designed for an eldercare check-in system, implementing CRUD operations for Residents, Caregivers, and Checkins using FastAPI, SQLAlchemy 2.x, and Pydantic schemas.
 
-- http://127.0.0.1:8001/docs — fari-checkins (Fari: eldercare check-ins)
-- http://127.0.0.1:8002/docs — senpai-lessons (Senpai: lesson management)
-- http://127.0.0.1:8003/docs — sentinel-events (Sentinel: live event feed)
+### [senpai-lessons](https://github.com/ShaunTheSheep25/senpai-lessons)  
 
-The different `make` commands available for the users to check out are as follows-
+![senpai-lessons-image](docs/senpai-lessons-image.png)
 
-```bash
-make up      # build and start all services
-make down    # stop and remove containers
-make logs    # tail logs from all services
-make test    # run pytest across all three repos
-make lint    # run ruff across all three repos
-```
+An educational assistant's assignment system, featuring a teacher-student-parent data model, JWT authentication, structured logging, and Alembic migrations for database schema changes.
 
-Do note that `make test` runs the full pytest suite for each service, and requires the service repos to be cloned as siblings in the given format -
+### [sentinel-events](https://github.com/ShaunTheSheep25/sentinel-events)  
 
-inGen Work/
+![sentinel-events-image](docs/sentinel-events-image.png)
 
-├── shaun-stack/
+A security monitoring system that processes camera feeds. It features an event ingestion API, an in-memory ring buffer for storage, and WebSockets to broadcast anomaly events to clients in real-time.
 
-├── fari-checkins/
+### [shaun-stack](https://github.com/ShaunTheSheep25/shaun-stack)  
 
-├── senpai-lessons/
+![shaun-stack-image](docs/shaun-stack-image.png)
 
-└── sentinel-events/
+A fully containerized integration of the prior services. It uses Docker Compose to manage the stack, including persistent database volumes, shared networking, and a unified Makefile to control service operations.
 
-Furthermore, on stopping using `make down`, the database volumes (`fari-data`, `senpai-data`) are preserved so that the database state survives restarts. To wipe them completely, do `docker volume rm shaun-stack_fari-data shaun-stack_senpai-data`.
+### [aido-telemetry](https://github.com/ShaunTheSheep25/aido-telemetry)  
+A ROS 2 Python package specifically for the Aido Rover. It includes publisher and subscriber nodes to handle telemetry data, custom message types, and service nodes for controlling robot parameters.
 
-## Limitations
+### [aido-bridge](https://github.com/ShaunTheSheep25/aido-bridge)  
+A FastAPI service that acts as a bridge for ROS 2 telemetry. It subscribes to ROS topics via rclpy and exposes this real-time data through REST endpoints and WebSockets, enabling ROS data access without a local ROS installation.
 
-There are multiple limitations with the way I've containerised these services, some of which are given below -
+### [fleet-console](https://github.com/ShaunTheSheep25/fleet-console)  
 
-- Containers run as root, but this is not suitable for production (detailed in SECURITY.md)
-- SQLite is used for persistence, but is usually not considered for multi-instance production deployments
-- No resource limits set on containers
-- sentinel-events event store is in-memory and lost on restart
+![fleet-console-image](docs/fleet-console-image.png)
+
+A React-based dashboard built with Vite and Tailwind CSS. It integrates real-time telemetry from the aido-bridge and security event data from sentinel-events, providing a unified view of robot status and anomaly events.
