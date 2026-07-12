@@ -24,6 +24,17 @@ services:
     networks:
       - shaun-net
 
+  sentinel-simulator:
+    build:
+      context: ../sentinel-events
+    command: >
+      /bin/bash -c "
+      sleep 5 &&
+      python3 /app/scripts/simulate.py --url http://localhost:8003 --rate 1"
+    network_mode: host
+    depends_on:
+      - sentinel-events
+
   ros-publisher:
     build:
       context: ../aido-telemetry
